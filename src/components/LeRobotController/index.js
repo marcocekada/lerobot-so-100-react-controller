@@ -154,8 +154,8 @@ export default function ArduinoController() {
                                     <Form.Control
                                         type="range"
                                         value={selectedMotor.degree}
-                                        min="-90"
-                                        max="90"
+                                        min={motors[selectedMotor].range*-1}
+                                        max={motors[selectedMotor].range}
                                         onChange={e => handlePadChange(parseInt(e.target.value))}
                                     />
                                 </Form.Group>
