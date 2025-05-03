@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
-import { Link } from 'react-router-dom';
 import { Container, Image, Row, Col, Card } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import LeRobotController from '../components/LeRobotController';
 
 
 export default function Home() {
@@ -17,9 +17,15 @@ export default function Home() {
 
 
 
-            <Container fluid className='d-flex justift-content-center align-items-center' style={{ paddingTop: 130, minHeight: '50vh' }} id="hero-home">
-                <Container fluid='lg' className='text-center'>
-                    
+            <Container fluid style={{ paddingTop: 130 }}>
+                <Container fluid='lg' className='text-start'>
+                    <h1>LeRobot SO-100 React js Controller</h1>
+
+                    <Card className='mt-4'>
+                        <Card.Body>
+                            <LeRobotController />
+                        </Card.Body>
+                    </Card>
                 </Container>
             </Container>
         </>
