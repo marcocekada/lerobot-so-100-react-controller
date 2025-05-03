@@ -1,0 +1,18 @@
+#footer {
+    background-color: #000;
+}
+
+#footer h3 {
+    color: #fff;
+    font-weight: 200;
+    font-size: 35px;
+}
+
+#footer p, #footer li {
+    font-size: 16px;
+    font-weight: 300;
+}
+
+#footer li {
+    list-style-type: none;
+}
