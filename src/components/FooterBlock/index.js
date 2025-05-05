@@ -13,34 +13,21 @@ export default function FooterBlock() {
 
     return (
         <Container fluid className='text-white' id="footer">
-            <Container fluid='lg' className='mt-5'>
+            <Container fluid='lg' className='mt-5 small'>
                 <Row>
-                    <Col xs={12} md={12} lg={4}>
-                        <div className='py-4'>
-                            <p>Powered by:</p>
+                    <Col xs={12} md={6} lg={4}>
+                        <div className='py-4 pe-4'>
+                            <p><b>Powered by:</b></p>
 
-                            <Table className="text-center small">
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <Image src={arduinoLogo} height={50} />
-                                        </td>
-                                        <td>
-                                            <Image src={reactLogo} height={50} />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colSpan={2}>
-                                            <Image src={lerobotLogo} height={50} />
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </Table>
+                            <Image src={arduinoLogo} height={50} className='mb-3 me-3' />
+                            <Image src={reactLogo} height={50} className='mb-3 me-3' />
+                            <br/>
+                            <Image src={lerobotLogo} height={50} className='mb-3 me-3' />       
                         </div>
                     </Col>
-                    <Col xs={12} md={12} lg={4}>
-                        <div className='py-4'>
-                            <p>Links</p>
+                    <Col xs={12} md={6} lg={4}>
+                        <div className='py-4 pe-4'>
+                            <p><b>Links</b></p>
                             <ul>
                                 <li><a className="link-light" href="https://github.com/TheRobotStudio/SO-ARM100" target="_blank">SO-ARM100 - Repo</a></li>
                                 <li><a className="link-light" href="https://github.com/huggingface/lerobot" target="_blank">HuggingFace LeRobot - Repo</a></li>
@@ -49,8 +36,8 @@ export default function FooterBlock() {
                             </ul>
                         </div>
                     </Col>
-                    <Col xs={12} md={12} lg={4}>
-                        <div className='py-4'>
+                    <Col xs={12} md={6} lg={4}>
+                        <div className='py-4 pe-4'>
                             
                         </div>
                     </Col>
