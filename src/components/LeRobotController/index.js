@@ -26,7 +26,7 @@ export default function ArduinoController() {
     async function connect() {
         try {
             const p = await navigator.serial.requestPort();
-            await p.open({ baudRate: 1000000 });
+            await p.open({ baudRate: 115200 });
             const r = p.readable.getReader();
             const w = p.writable.getWriter();
             setPort(p);
