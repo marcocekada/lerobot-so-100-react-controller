@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Button, Card, Form } from 'react-bootstrap';
+import { Container, Row, Col, Button, Card, Form, InputGroup } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
@@ -10,12 +10,12 @@ export default function ArduinoController() {
     const [log, setLog] = useState([]);
     const [motors, setMotors] = useState(
         [
-            {id: 1, name: 'Motor 1', range: 90, degree: 0},
-            {id: 2, name: 'Motor 2', range: 90, degree: 0},
-            {id: 3, name: 'Motor 3', range: 90, degree: 0},
-            {id: 4, name: 'Motor 4', range: 90, degree: 0},
-            {id: 5, name: 'Motor 5', range: 90, degree: 0},
-            {id: 6, name: 'Motor 6', range: 90, degree: 0}
+            { id: 1, name: 'shoulder_pan', label: 'Motor 1', max_position: 2700, min_position: 1250, position: 1500 },
+            { id: 2, name: 'shoulder_lift', label: 'Motor 2', max_position: 2700, min_position: 1250, position: 1500 },
+            { id: 3, name: 'elbow_flex', label: 'Motor 3', max_position: 2700, min_position: 1250, position: 1500 },
+            { id: 4, name: 'wrist_flex', label: 'Motor 4', max_position: 2700, min_position: 1250, position: 1500 },
+            { id: 5, name: 'wrist_roll', label: 'Motor 5', max_position: 2700, min_position: 1250, position: 1500 },
+            { id: 6, name: 'gripper', label: 'Motor 6', max_position: 2700, min_position: 1250, position: 1500 }
         ]
     );
     const [selectedMotor, setSelectedMotor] = useState(0);
@@ -59,7 +59,7 @@ export default function ArduinoController() {
     const handlePadChange = (value) => {
         setMotors(prev => {
             const arr = [...prev];
-            arr[selectedMotor] = { ...arr[selectedMotor], ['degree']: value };
+            arr[selectedMotor] = { ...arr[selectedMotor], ['position']: value };
             return arr;
         });
         //send(`M${selectedMotor}:D${value}`);
@@ -109,20 +109,33 @@ export default function ArduinoController() {
                                             />
                                         </Col>
                                         <Col sm={4}>
-                                            <Form.Control
-                                                type="number"
-                                                value={motor.range}
-                                                onChange={e => handleMotorChange(i, 'range', parseInt(e.target.value))}
-                                                placeholder="Range"
-                                            />
+                                            <InputGroup>
+                                                <Form.Control
+                                                    type="number"
+                                                    value={motor.min_position}
+                                                    onChange={e => handleMotorChange(i, 'min_position', parseInt(e.target.value))}
+                                                    placeholder="Min position"
+                                                />
+                                                <Form.Control
+                                                    type="number"
+                                                    value={motor.max_position}
+                                                    onChange={e => handleMotorChange(i, 'max_position', parseInt(e.target.value))}
+                                                    placeholder="Max position"
+                                                />
+                                            </InputGroup>
                                         </Col>
                                         <Col sm={4}>
-                                            <Form.Control
-                                                type="number"
-                                                disabled
-                                                value={motor.degree}
-                                                placeholder="Degree"
-                                            />
+                                            <InputGroup>
+                                                <Form.Control
+                                                    type="number"
+                                                    disabled
+                                                    value={motor.position}
+                                                    placeholder="Position"
+                                                />
+                                                <Button variant="outline-success" onClick={() => send()}>
+                                                    Send
+                                                </Button>
+                                            </InputGroup>
                                         </Col>
                                     </Row>
                                 </Form>
@@ -153,9 +166,9 @@ export default function ArduinoController() {
                                     <Form.Label>Move</Form.Label>
                                     <Form.Control
                                         type="range"
-                                        value={selectedMotor.degree}
-                                        min={motors[selectedMotor].range*-1}
-                                        max={motors[selectedMotor].range}
+                                        value={motors[selectedMotor].position}
+                                        min={motors[selectedMotor].min_position}
+                                        max={motors[selectedMotor].max_position}
                                         onChange={e => handlePadChange(parseInt(e.target.value))}
                                     />
                                 </Form.Group>
