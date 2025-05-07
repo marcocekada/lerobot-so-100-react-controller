@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default function ArduinoController() {
     const [port, setPort] = useState(null);
+    const [reader, setReader] = useState(null);
     const [writer, setWriter] = useState(null);
     const [connected, setConnected] = useState(false);
     const [log, setLog] = useState([]);
@@ -15,20 +16,21 @@ export default function ArduinoController() {
             { id: 3, name: 'elbow_flex', label: 'Motor 3', max_position: 2700, min_position: 1250, position: 1500 },
             { id: 4, name: 'wrist_flex', label: 'Motor 4', max_position: 2700, min_position: 1250, position: 1500 },
             { id: 5, name: 'wrist_roll', label: 'Motor 5', max_position: 2700, min_position: 1250, position: 1500 },
-            { id: 6, name: 'gripper', label: 'Motor 6', max_position: 2700, min_position: 1250, position: 1500 }
+            { id: 24, name: 'gripper', label: 'Motor 6', max_position: 2700, min_position: 1250, position: 1500 }
         ]
     );
     const [selectedMotor, setSelectedMotor] = useState(0);
-    const [pad, setPad] = useState(0);
 
     const logMessage = msg => setLog(prev => [...prev, `${new Date().toLocaleTimeString()}: ${msg}`]);
 
-    const connect = async () => {
+    async function connect() {
         try {
             const p = await navigator.serial.requestPort();
-            await p.open({ baudRate: 9600 });
+            await p.open({ baudRate: 1000000 });
+            const r = p.readable.getReader();
             const w = p.writable.getWriter();
             setPort(p);
+            setReader(r);
             setWriter(w);
             setConnected(true);
             logMessage('Connected to Arduino');
@@ -38,17 +40,37 @@ export default function ArduinoController() {
         }
     };
 
-    const send = async data => {
+
+    async function read() {
+        const { value, done } = await reader.read();
+
+        if (done) {
+            // Allow the serial port to be closed later.
+            reader.releaseLock();
+        }
+
+        // value is a Uint8Array.
+        var stringa = new TextDecoder().decode(value);
+        console.warn("Reading from Arduino...", stringa)
+
+        var valori = stringa;
+
+    }
+
+    async function send(motor) {
+        var dataToSend = `M${motor.id}:${motor.position}`
+
         if (!writer) {
             logMessage('Not connected');
             return;
         }
         const encoder = new TextEncoder();
-        await writer.write(encoder.encode(data));
-        logMessage(`Sent: ${data}`);
+        var com = encoder.encode(dataToSend)
+        await writer.write(encoder.encode(dataToSend));
+        logMessage(`Sent: ${dataToSend}`);
     };
 
-    const handleMotorChange = (index, field, value) => {
+    function handleMotorChange(index, field, value) {
         setMotors(prev => {
             const arr = [...prev];
             arr[index] = { ...arr[index], [field]: value };
@@ -56,13 +78,12 @@ export default function ArduinoController() {
         });
     };
 
-    const handlePadChange = (value) => {
+    function handlePadChange(value) {
         setMotors(prev => {
             const arr = [...prev];
             arr[selectedMotor] = { ...arr[selectedMotor], ['position']: value };
             return arr;
         });
-        //send(`M${selectedMotor}:D${value}`);
     };
 
     return (
@@ -70,9 +91,15 @@ export default function ArduinoController() {
             <Row className="mb-3">
                 <Col>
                     {connected ? (
-                        <Button variant="success" disabled>
-                            <FontAwesomeIcon icon={"sync-alt"} spin /> Connected
-                        </Button>
+                        <>
+                            <Button variant="success" disabled>
+                                <FontAwesomeIcon icon={"sync-alt"} spin /> Connected
+                            </Button>
+
+                            <Button className="ms-2" variant="primary" onClick={() => read()}>
+                                <FontAwesomeIcon icon={"sync-alt"} /> Leggi
+                            </Button>
+                        </>
                     ) : (
                         <Button variant="primary" onClick={connect}>
                             <FontAwesomeIcon icon={"plug"} /> Connect to Arduino
@@ -132,7 +159,7 @@ export default function ArduinoController() {
                                                     value={motor.position}
                                                     placeholder="Position"
                                                 />
-                                                <Button variant="outline-success" onClick={() => send()}>
+                                                <Button variant="outline-success" onClick={() => send(motor)}>
                                                     Send
                                                 </Button>
                                             </InputGroup>
