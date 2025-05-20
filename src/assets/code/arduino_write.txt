@@ -1,0 +1,12 @@
+async function send(motor) {
+    var dataToSend = `M${motor.id}:${motor.position}`
+
+    if (!writer) {
+        logMessage('Not connected');
+        return;
+    }
+    const encoder = new TextEncoder();
+    var com = encoder.encode(dataToSend)
+    await writer.write(encoder.encode(dataToSend));
+    logMessage(`Sent: ${dataToSend}`);
+};

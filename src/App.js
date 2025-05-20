@@ -14,6 +14,7 @@ import Home from './pages/index';
 import NotFound from './pages/not_found';
 import About from './pages/about';
 import Policy from './pages/policy';
+import Code from './pages/code';
 
 
 import HeaderBlock from './components/HeaderBlock';
@@ -48,6 +49,7 @@ function App() {
                     <Route exact path='/' element={<Home />} /> {/* default page */}
                     <Route path="*" element={<NotFound />} /> {/* 404 page */}
                     <Route path='/about' element={<About />} />
+                    <Route path='/code' element={<Code />} />
                     <Route path='/policy' element={<Policy />} />
                 </Routes>
                 <FooterBlock />
