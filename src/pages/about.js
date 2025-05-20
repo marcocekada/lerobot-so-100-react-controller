@@ -17,7 +17,7 @@ export default function About() {
                 <Container fluid='lg' className='text-start'>
                     <h1>About the project</h1>
                     <p className='lead'>
-                        My main goal is to controll lerobot SO-100 by a web application made in React js. I decided to build only one arm so I will not have leader and follower as described in the <a href="https://github.com/huggingface/lerobot" target="_blank">Huggingface repo</a>.
+                        My main goal is to controll lerobot SO-100 by a web application made in React Js. I decided to build only one arm so I will not have leader and follower as described in the <a href="https://github.com/huggingface/lerobot" target="_blank">Huggingface repo</a>.
                     </p>
                     <Row className='mt-5'>
                         <Col xs={12} md={6} className='mb-3'>
@@ -44,6 +44,11 @@ export default function About() {
                                                 <td>Motor control board</td>
                                                 <td>1</td>
                                                 <td><a href="https://www.amazon.it/dp/B0DK79JNNK?ref=fed_asin_title" target="_blank">Amazon</a></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Waveshare board ESP32</td>
+                                                <td>1</td>
+                                                <td><a href="https://www.amazon.it/dp/B09SZ41RJW?ref=emc_p_m_5_i_atc" target="_blank">Amazon</a></td>
                                             </tr>
                                             <tr>
                                                 <td>USB-C Cable</td>
