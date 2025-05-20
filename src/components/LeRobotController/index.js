@@ -9,6 +9,7 @@ export default function ArduinoController() {
     const [writer, setWriter] = useState(null);
     const [connected, setConnected] = useState(false);
     const [log, setLog] = useState([]);
+    
     const [motors, setMotors] = useState(
         [
             { id: 1, name: 'shoulder_pan', label: 'Motor 1', max_position: 2700, min_position: 1250, position: 1500 },
@@ -97,7 +98,7 @@ export default function ArduinoController() {
                             </Button>
 
                             <Button className="ms-2" variant="primary" onClick={() => read()}>
-                                <FontAwesomeIcon icon={"sync-alt"} /> Leggi
+                                <FontAwesomeIcon icon={"sync-alt"} /> Read
                             </Button>
                         </>
                     ) : (
