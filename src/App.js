@@ -15,6 +15,8 @@ import NotFound from './pages/not_found';
 import About from './pages/about';
 import Policy from './pages/policy';
 import Code from './pages/code';
+import Repo from './pages/repo';
+import Waveshare from './pages/waveshare';
 
 
 import HeaderBlock from './components/HeaderBlock';
@@ -50,6 +52,8 @@ function App() {
                     <Route path="*" element={<NotFound />} /> {/* 404 page */}
                     <Route path='/about' element={<About />} />
                     <Route path='/code' element={<Code />} />
+                    <Route path='/repo' element={<Repo />} />
+                    <Route path='/waveshare' element={<Waveshare />} />
                     <Route path='/policy' element={<Policy />} />
                 </Routes>
                 <FooterBlock />
