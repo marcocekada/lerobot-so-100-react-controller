@@ -12,12 +12,12 @@ export default function ArduinoController() {
     
     const [motors, setMotors] = useState(
         [
-            { id: 1, name: 'shoulder_pan', label: 'Motor 1', max_position: 1480, min_position: 0, position: 500, center_position: 500 },
-            { id: 8, name: 'shoulder_lift', label: 'Motor 2', max_position: 1900, min_position: 300, position: 700 },
-            { id: 12, name: 'elbow_flex', label: 'Motor 3', max_position: 850, min_position: 200, position: 500 },
-            { id: 16, name: 'wrist_flex', label: 'Motor 4', max_position: 4000, min_position: 3100, position: 3600 },
-            { id: 20, name: 'wrist_roll', label: 'Motor 5', max_position: 2700, min_position: 700, position: 1500 },
-            { id: 24, name: 'gripper', label: 'Motor 6', max_position: 1800, min_position: 1250, position: 1500 }
+            { id: 1, name: 'shoulder_pan', label: 'Motor 1', max_position: 2900, min_position: 1400, position: 2000, center_position: 2000 }, //max orario, min antiorario
+            { id: 8, name: 'shoulder_lift', label: 'Motor 2', max_position: 2700, min_position: 1100, position: 2000, center_position: 2000 }, //max open, min close
+            { id: 12, name: 'elbow_flex', label: 'Motor 3', max_position: 2900, min_position: 1100, position: 2000, center_position: 2000 }, //max close, min open
+            { id: 16, name: 'wrist_flex', label: 'Motor 4', max_position: 2900, min_position: 1000, position: 2000, center_position: 2000 }, //max close, min open
+            { id: 20, name: 'wrist_roll', label: 'Motor 5', max_position: 3700, min_position: 900, position: 2000, center_position: 2000 }, //max orario, min antiorario
+            { id: 24, name: 'gripper', label: 'Motor 6', max_position: 2600, min_position: 1940, position: 2000, center_position: 2000 } //max open, min close
         ]
     );
     const [selectedMotor, setSelectedMotor] = useState(0);
