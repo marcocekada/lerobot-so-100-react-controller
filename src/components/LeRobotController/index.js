@@ -132,6 +132,7 @@ export default function ArduinoController() {
                                             <Form.Control
                                                 type="text"
                                                 value={motor.name}
+                                                disabled
                                                 onChange={e => handleMotorChange(i, 'name', e.target.value)}
                                                 placeholder={`Motor ${i + 1} Name`}
                                             />
@@ -141,12 +142,14 @@ export default function ArduinoController() {
                                                 <Form.Control
                                                     type="number"
                                                     value={motor.min_position}
+                                                    disabled
                                                     onChange={e => handleMotorChange(i, 'min_position', parseInt(e.target.value))}
                                                     placeholder="Min position"
                                                 />
                                                 <Form.Control
                                                     type="number"
                                                     value={motor.max_position}
+                                                    disabled
                                                     onChange={e => handleMotorChange(i, 'max_position', parseInt(e.target.value))}
                                                     placeholder="Max position"
                                                 />
