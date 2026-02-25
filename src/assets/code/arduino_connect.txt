@@ -1,0 +1,21 @@
+const [port, setPort] = useState(null);
+const [reader, setReader] = useState(null);
+const [writer, setWriter] = useState(null);
+const [connected, setConnected] = useState(false);
+    
+async function connect() {
+    try {
+        const p = await navigator.serial.requestPort();
+        await p.open({ baudRate: 115200 });
+        const r = p.readable.getReader();
+        const w = p.writable.getWriter();
+        setPort(p);
+        setReader(r);
+        setWriter(w);
+        setConnected(true);
+        logMessage('Connected to Arduino');
+    } catch (err) {
+        console.error(err);
+        logMessage('Connection failed');
+    }
+};

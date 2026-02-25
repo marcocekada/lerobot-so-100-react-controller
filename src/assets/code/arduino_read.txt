@@ -1,0 +1,14 @@
+async function read() {
+    const { value, done } = await reader.read();
+
+    if (done) {
+        // Allow the serial port to be closed later.
+        reader.releaseLock();
+    }
+
+    // value is a Uint8Array.
+    var stringa = new TextDecoder().decode(value);
+    console.warn("Reading from Arduino...", stringa)
+
+    var valori = stringa;
+}
