@@ -1,70 +1,148 @@
-# Getting Started with Create React App
+# LeRobot SO-100 React Controller
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A web-based controller for the [LeRobot SO-100](https://github.com/TheRobotStudio/SO-ARM100) robotic arm. Built with React, it communicates with an Arduino Mega via the **Web Serial API** to control 6 servo motors in real time directly from your browser.
 
-## Available Scripts
+The goal of this project is to control a single SO-100 arm through a web interface, without the leader/follower setup described in the [Hugging Face LeRobot repo](https://github.com/huggingface/lerobot).
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+- **Real-time motor control** — move each of the 6 joints using sliders or direct input
+- **Web Serial API** — connect to Arduino directly from the browser (Chrome/Edge)
+- **Motor configuration panel** — view name, min/max range and current position for each motor
+- **Pad control** — select a motor and adjust its position with a range slider
+- **Activity log** — live log of all serial commands sent to Arduino
+- **Arduino code examples** — built-in code viewer with the Arduino sketch and usage snippets
+- **Responsive design** — works on desktop and tablet screens
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Hardware
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+| Component | Qty | Link |
+|---|---|---|
+| Waveshare 30KG Serial Bus Servo | 6 | [Amazon](https://www.amazon.it/dp/B0B6HSBRGF) |
+| Motor control board | 1 | [Amazon](https://www.amazon.it/dp/B0DK79JNNK) |
+| Waveshare board ESP32 | 1 | [Amazon](https://www.amazon.it/dp/B09SZ41RJW) |
+| Arduino Mega | 1 | [Amazon](https://www.amazon.it/Arduino-Mega-2560-Rev3-microcontrollore/dp/B0046AMGW0) |
+| Power supply | 1 | [Amazon](https://www.amazon.it/dp/B01HRR9GY4) |
+| 3D-printed parts | 1 set | [SO-ARM100 STL files](https://github.com/TheRobotStudio/SO-ARM100?tab=readme-ov-file#printing-the-parts) |
+| USB-C cable | 1 | — |
+| Table clamp | 2 | [Amazon](https://www.amazon.it/dp/B001DZQ3HA) |
+| UVC camera (optional) | 1 | [Amazon](https://www.amazon.it/dp/B0CNCSFQC1) |
 
-### `npm test`
+## Motor Configuration
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+| Motor | Name | ID | Min | Max | Default |
+|---|---|---|---|---|---|
+| Motor 1 | shoulder_pan | 1 | 1400 | 2900 | 2000 |
+| Motor 2 | shoulder_lift | 8 | 1100 | 2700 | 2000 |
+| Motor 3 | elbow_flex | 12 | 1100 | 2900 | 2000 |
+| Motor 4 | wrist_flex | 16 | 1000 | 2900 | 2000 |
+| Motor 5 | wrist_roll | 20 | 900 | 3700 | 2000 |
+| Motor 6 | gripper | 24 | 1940 | 2600 | 2000 |
 
-### `npm run build`
+## Communication Protocol
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **Baudrate:** 115200 (Serial USB between PC and Arduino)
+- **Servo bus:** 1000000 baud (Serial1, Arduino to servos via SCServo library)
+- **Command format:** `M<id>:<position>` (e.g. `M1:2000`)
+- **Response:** ASCII feedback from Arduino (`→ move #1 to 2000` / `✔ done`)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Prerequisites
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- **Node.js** >= 18
+- **npm** >= 9
+- **Google Chrome** or **Microsoft Edge** (Web Serial API is not supported in Firefox/Safari)
+- **Arduino Mega** with the sketch from `src/assets/code/arduino_code.txt` uploaded
+- [SCServo library](https://github.com/ftservo/SCServo) installed in Arduino IDE
 
-### `npm run eject`
+## Getting Started
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+1. **Clone the repository**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+   ```bash
+   git clone https://github.com/marcocekada/lerobot-so-100-react-controller.git
+   cd lerobot-so-100-react-controller
+   ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+2. **Install dependencies**
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+   ```bash
+   npm install
+   ```
 
-## Learn More
+3. **Upload the Arduino sketch**
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+   - Open Arduino IDE
+   - Install the **SCServo** library
+   - Copy the code from `src/assets/code/arduino_code.txt` into a new sketch
+   - Select board **Arduino Mega 2560** and the correct serial port
+   - Upload
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+4. **Start the development server**
 
-### Code Splitting
+   ```bash
+   npm start
+   ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+   The app will open at [http://localhost:3000](http://localhost:3000).
 
-### Analyzing the Bundle Size
+5. **Connect to the robot**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+   - Click **"Connect to Arduino"** in the web interface
+   - Select the Arduino serial port from the browser popup
+   - Use the sliders or the pad control to move the motors
 
-### Making a Progressive Web App
+## Production Build
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```bash
+npm run build
+```
 
-### Advanced Configuration
+The optimized bundle will be generated in the `build/` folder, ready to be deployed to any static hosting service.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Project Structure
 
-### Deployment
+```
+src/
+├── components/
+│   ├── HeaderBlock/           # Navigation bar
+│   ├── FooterBlock/           # Footer
+│   └── LeRobotController/    # Main controller component (serial + UI)
+├── pages/                     # Route pages (Home, About, Code, Repo, Waveshare)
+├── core/                      # Utilities (API manager, i18n, helpers)
+├── config/                    # App settings and Bootstrap SCSS overrides
+├── css/                       # Global stylesheets
+└── assets/
+    └── code/                  # Arduino sketch and code snippets
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## Tech Stack
 
-### `npm run build` fails to minify
+- [React 19](https://react.dev/) + [React Router 7](https://reactrouter.com/)
+- [React Bootstrap](https://react-bootstrap.github.io/) + [Bootstrap 5](https://getbootstrap.com/)
+- [FontAwesome](https://fontawesome.com/) icons
+- [Web Serial API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Serial_API)
+- [SCServo](https://github.com/ftservo/SCServo) Arduino library
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Browser Compatibility
+
+The Web Serial API is required to communicate with the Arduino. Supported browsers:
+
+| Browser | Supported |
+|---|---|
+| Google Chrome (desktop) | Yes |
+| Microsoft Edge (desktop) | Yes |
+| Opera | Yes |
+| Firefox | No |
+| Safari | No |
+| Mobile browsers | No |
+
+## License
+
+This project is open source. Feel free to use, modify and distribute it.
+
+## Links
+
+- [SO-ARM100 hardware design](https://github.com/TheRobotStudio/SO-ARM100)
+- [Hugging Face LeRobot](https://github.com/huggingface/lerobot)
+- [SCServo Arduino library](https://github.com/ftservo/SCServo)
+- [Web Serial API docs](https://developer.mozilla.org/en-US/docs/Web/API/Web_Serial_API)
